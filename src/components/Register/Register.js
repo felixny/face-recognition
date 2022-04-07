@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Register = ({ onRouteChange, LoadUser }) => {
+const Register = ({ onRouteChange, loadUser }) => {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -30,11 +30,9 @@ const Register = ({ onRouteChange, LoadUser }) => {
         })
             .then(response => response.json())
             .then(user => {
-                console.log('log' , user[0].entry)
-                console.log('user length', user.length)
-              
+                console.log('user', user)      
                 if (user.length === 1) {
-                    /* LoadUser(user) */
+                    loadUser(user[0])
                     onRouteChange('home');
                 } else {
                     alert('incorrect submission')
@@ -75,3 +73,6 @@ const Register = ({ onRouteChange, LoadUser }) => {
 }
 
 export default Register;
+
+/* [{"id":5,"name":"OL","email":"OL@gmail.com","entry":"0","joined":"2022-04-07T03:06:48.862Z"}]
+{"id":4,"name":"Mike","email":"Mike@gmail.com","entry":"0","joined":"2022-04-07T03:01:01.243Z"} */

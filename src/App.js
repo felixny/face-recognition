@@ -29,7 +29,7 @@ const App = () => {
 
   const [isSignedIn, setSignedIn] = useState(false);
 
-  const [users, setUsers] = useState(
+  const [users, setUser] = useState(
     {
       id: '',
       name: '',
@@ -38,6 +38,17 @@ const App = () => {
       joined: ''
     }
   );
+
+  const loadUser = (users) => {
+    console.log('users', users)
+    setUser({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      entry: users.entry,
+      joined: users.joined
+    })
+  }
 
   /* const LoadUser = (data) => {
     setUsers({
@@ -48,21 +59,6 @@ const App = () => {
       entry: data.entry,
       joined: data.joined
     }); */
-
-  const LoadUser = (data) => {
-    const updateUsers = [
-      ...users,
-      {
-        id: data.id,
-        name: data.name,
-        email: data.email,
-        entry: data.entry,
-        joined: data.joined
-      }
-    ];
-
-    setUsers(updateUsers);
-  }
 
 
   console.log('name', users.name);
@@ -255,16 +251,16 @@ const App = () => {
       <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       {route === 'home'
         ? <div> <Logo />
-          <Rank name={users.name} entries={users.entry} />
+          <Rank name={users.name} entry={users.entry} />
           <ImageLinkForm onInputChange={onInputChange} onSubmit={onSubmit} />
           <FaceRecognition box={box} imageURL={imageURL} />
         </div>
         : (
           route === 'signin'
-            ? <Signin LoadUser={LoadUser} onRouteChange={onRouteChange} />
+            ? <Signin loadUser={loadUser} onRouteChange={onRouteChange} />
             : (route === 'signout'
               ? <Signin onRouteChange={onRouteChange} />
-              : <Register LoadUser={LoadUser} onRouteChange={onRouteChange} />
+              : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
             )
         )
 

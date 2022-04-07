@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Signin = ({ onRouteChange, LoadUser }) => {
+const Signin = ({ onRouteChange, loadUser }) => {
 
     const [email, setSignInEmail] = useState('');
     const [password, setSignInPassWord] = useState('');
@@ -24,12 +24,12 @@ const Signin = ({ onRouteChange, LoadUser }) => {
         })
             .then(response => response.json())
             .then(user => {
+                console.log('user', user)
                 if (user.id) {
-
-                    /* LoadUser(user) */
+                    loadUser(user);
                     onRouteChange('home');
                 } else {
-                    alert('incorrect submission');
+                    alert('Wrong Username or Password')
                 }
             })
     }
