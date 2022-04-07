@@ -157,6 +157,10 @@ const App = () => {
               id: users.id
             })
           })
+            .then(response => response.json())
+            .then(count => {
+              setUser(Object.assign(users, { entry: count }))
+            })
         }
         displayFaceBox(calculateFaceLocation(response))
       })
