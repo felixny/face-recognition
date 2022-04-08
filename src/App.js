@@ -48,6 +48,7 @@ const App = () => {
       entry: users.entry,
       joined: users.joined
     })
+
   }
 
   /* const LoadUser = (data) => {
@@ -79,28 +80,56 @@ const App = () => {
   }
 
   const calculateFaceLocation = (data) => {
-    const clarifaiFace = JSON.parse(data, null, 2).outputs[0].data.regions[0]
+    const outputs = JSON.parse(data, null, 2).outputs[0].data.regions;
+    console.log('outputs', outputs);
+    console.log('length', outputs.length);
+    /*  console.log('object', outputs[0].region_info.bounding_box);
+     console.log('object', outputs[1].region_info.bounding_box); */
+    let result = [];
+    if (Array.isArray(outputs)) {
+      console.log('yes its an array')
+      for (var i = 0; i < outputs.length; i++) {
+        result.push(outputs[i].region_info.bounding_box);
+      }
+    }
+    console.log('result', result);
+
+    /* console.log('data', data); */
+   /*  const clarifaiFace = JSON.parse(data, null, 2).outputs[0].data.regions[0]
       .region_info.bounding_box;
+    console.log('clarifai face', clarifaiFace); */
+
+    let box = [];
     const image = document.getElementById("image");
     const width = Number(image.width);
     const height = Number(image.height);
-    console.log('width', width);
-    console.log('height', height);
-    console.log('leftColl', clarifaiFace.left_col);
-    console.log('TopRow', clarifaiFace.top_row);
-    console.log('right_col', clarifaiFace.right_col);
-    console.log('bottom_row', clarifaiFace.bottom_row);
-
-    return {
+    /*  console.log('width', width);
+     console.log('height', height);
+     console.log('leftColl', clarifaiFace.left_col);
+     console.log('TopRow', clarifaiFace.top_row);
+     console.log('right_col', clarifaiFace.right_col);
+     console.log('bottom_row', clarifaiFace.bottom_row); */
+    result.forEach((item) => {
+      box.push({
+        leftCol: item.left_col * width,
+        topRow: item.top_row * height,
+        rightCol: width - (item.right_col * width),
+        bottomRow: height - (item.bottom_row * height),
+      });
+    });
+    console.log('width and height', width, height);
+    console.log('box calculate face loc', box);
+    return box;
+    /* return {
       leftCol: clarifaiFace.left_col * width,
       topRow: clarifaiFace.top_row * height,
       rightCol: width - (clarifaiFace.right_col * width),
       bottomRow: height - (clarifaiFace.bottom_row * height),
-    };
-  }
+    }; */
+  };
 
   const displayFaceBox = (box) => {
-    console.log(box);
+    console.log('box', box);
     setBox(box);
 
   }
@@ -150,6 +179,16 @@ const App = () => {
 
     fetch("https://api.clarifai.com/v2/models/a403429f2ddf4b49b307e318f00e528b/outputs", requestOptions)
       .then((response) => response.text())
+
+      /* .then(user => {
+        console.log('user', user.outputs[0].data.regions[0]
+        .region_info.bounding_box)
+        console.log('user', user.outputs[0].data.regions[1]
+        .region_info.bounding_box)
+        console.log('user', user.outputs[0].data.regions[2]
+        .region_info.bounding_box)
+        console.log('user', user.outputs[0].data.regions[3]
+        .region_info.bounding_box)}) */
       .then((response) => {
         if (response) {
           fetch('https://young-tundra-92620.herokuapp.com/image', {
