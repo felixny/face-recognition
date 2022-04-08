@@ -4,20 +4,20 @@ import Logo from './components/Logo/Logo';
 import './App.css';
 import ImageLinkForm from './components/ImageLinkForm/ImageLinkForm';
 import Rank from './components/Rank/Rank';
-/* import Particles from "react-tsparticles"; */
+import Particles from "react-tsparticles";
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 
 const App = () => {
-  /* const particlesInit = (main) => {
+  const particlesInit = (main) => {
     console.log(main);
 
     // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
   };
   const particlesLoaded = (container) => {
     console.log(container);
-  }; */
+  };
 
   const [imageURL, setURL] = useState('');
 
@@ -223,7 +223,7 @@ const App = () => {
 
   return (
     <div className="App">
-      {/*  <Particles className='particles'
+       <Particles className='particles'
         id="tsparticles"
         init={particlesInit}
         loaded={particlesLoaded}
@@ -300,7 +300,7 @@ const App = () => {
           detectRetina: true,
         }}
 
-      /> */}
+      />
 
       <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       {route === 'home'
