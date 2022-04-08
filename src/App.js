@@ -23,7 +23,7 @@ const App = () => {
 
   const [input, setInput] = useState('');
 
-  const [box, setBox] = useState({});
+  const [box, setBox] = useState([]);
 
   const [route, setRoute] = useState('signin');
 
@@ -95,9 +95,9 @@ const App = () => {
     console.log('result', result);
 
     /* console.log('data', data); */
-   /*  const clarifaiFace = JSON.parse(data, null, 2).outputs[0].data.regions[0]
-      .region_info.bounding_box;
-    console.log('clarifai face', clarifaiFace); */
+    /*  const clarifaiFace = JSON.parse(data, null, 2).outputs[0].data.regions[0]
+       .region_info.bounding_box;
+     console.log('clarifai face', clarifaiFace); */
 
     let box = [];
     const image = document.getElementById("image");
@@ -130,6 +130,8 @@ const App = () => {
 
   const displayFaceBox = (box) => {
     console.log('box', box);
+    const data = Array.from(box);
+    console.log('converted box', data);
     setBox(box);
 
   }
@@ -139,6 +141,13 @@ const App = () => {
       setSignedIn(false);
       setInput('');
       setURL('');
+      setUser({
+        id: '',
+        name: '',
+        email: '',
+        entry: 0,
+        joined: ''
+      })
     } else if (route === 'home') {
       setSignedIn(true);
     }
@@ -303,10 +312,8 @@ const App = () => {
         : (
           route === 'signin'
             ? <Signin loadUser={loadUser} onRouteChange={onRouteChange} />
-            : (route === 'signout'
-              ? <Signin onRouteChange={onRouteChange} />
-              : <Register loadUser={loadUser} onRouteChange={onRouteChange} />
-            )
+            :
+            <Register loadUser={loadUser} onRouteChange={onRouteChange} />
         )
 
       }
